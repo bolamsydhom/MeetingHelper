@@ -5,7 +5,7 @@ import {
 } from "@google-cloud/firestore";
 import * as download from "download";
 import { auth, database, firestore, messaging, storage } from "firebase-admin";
-import { https as _https /* , region */ } from "firebase-functions";
+import { https as _https , region } from "firebase-functions";
 import * as nf from "node-fetch";
 import { assertNotEmpty, getFCMTokensForUser } from "./common";
 import {
@@ -16,8 +16,8 @@ import {
 } from "./environment";
 import { encryptPassword } from "./passwordEncryption";
 
-// const https = region("europe-west1").https;
-const https = _https;
+const https = region("europe-west1").https;
+// const https = _https;
 const HttpsError = _https.HttpsError;
 
 export const registerWithLink = https.onCall(async (data, context) => {

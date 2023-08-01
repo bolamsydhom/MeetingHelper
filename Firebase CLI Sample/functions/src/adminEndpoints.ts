@@ -1,11 +1,11 @@
 import { FieldValue, Timestamp } from "@google-cloud/firestore";
 import { auth, database, firestore, messaging } from "firebase-admin";
-import { https as _https, /* region,  */ runWith } from "firebase-functions";
+import { https as _https, region } from "firebase-functions";
 import { assertNotEmpty, getFCMTokensForUser } from "./common";
 import { adminPassword } from "./environment";
 
-// const https = region("europe-west1").https;
-const https = _https;
+const https = region("europe-west1").https;
+// const https = _https;
 const HttpsError = _https.HttpsError;
 
 export const getUsers = https.onCall(async (data, context) => {
@@ -436,7 +436,6 @@ export const updatePermissions = https.onCall(async (data, context) => {
       if (
         oldPermissions.manageUsers !== newPermissions["manageUsers"] &&
         tokens !== null &&
-        tokens !== [] &&
         tokens !== undefined &&
         tokens !== ""
       ) {
@@ -448,7 +447,6 @@ export const updatePermissions = https.onCall(async (data, context) => {
           oldPermissions.manageAllowedUsers !==
             newPermissions["manageAllowedUsers"] &&
           tokens !== null &&
-          tokens !== [] &&
           tokens !== undefined &&
           tokens !== ""
         ) {
@@ -629,7 +627,6 @@ export const tempUpdateUserData = https.onCall(async (data) => {
       if (
         oldPermissions.manageUsers !== newPermissions["manageUsers"] &&
         tokens !== null &&
-        tokens !== [] &&
         tokens !== undefined &&
         tokens !== ""
       ) {
@@ -641,7 +638,7 @@ export const tempUpdateUserData = https.onCall(async (data) => {
           oldPermissions.manageAllowedUsers !==
             newPermissions["manageAllowedUsers"] &&
           tokens !== null &&
-          tokens !== [] &&
+
           tokens !== undefined &&
           tokens !== ""
         ) {
@@ -693,7 +690,7 @@ export const tempUpdateUserData = https.onCall(async (data) => {
   throw new HttpsError("unauthenticated", "");
 });
 
-export const deleteEmptyDocs = runWith({
+export const deleteEmptyDocs = region("europe-west1").runWith({
   timeoutSeconds: 540,
   memory: "1GB",
 }).https.onRequest(async (data) => {
@@ -1082,7 +1079,7 @@ export const updateUser = https.onCall(async (data, context) => {
           if (
             oldPermissions.manageUsers !== newPermissions["manageUsers"] &&
             tokens !== null &&
-            tokens !== [] &&
+  
             tokens !== undefined &&
             tokens !== ""
           ) {
@@ -1094,7 +1091,7 @@ export const updateUser = https.onCall(async (data, context) => {
               oldPermissions.manageAllowedUsers !==
                 newPermissions["manageAllowedUsers"] &&
               tokens !== null &&
-              tokens !== [] &&
+    
               tokens !== undefined &&
               tokens !== ""
             ) {

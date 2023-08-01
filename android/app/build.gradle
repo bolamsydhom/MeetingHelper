@@ -47,7 +47,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.AndroidQuartz.meetinghelper"
+        applicationId "com.AndroidQuartz.meetinghelper.abc"
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

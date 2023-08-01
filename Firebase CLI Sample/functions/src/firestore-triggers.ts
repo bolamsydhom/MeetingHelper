@@ -5,8 +5,8 @@ import {
 } from "@google-cloud/firestore";
 import { firestore, storage } from "firebase-admin";
 import { FirebaseDynamicLinks } from "firebase-dynamic-links";
-// import { region } from "firebase-functions";
-import { firestore as firestore_1 } from "firebase-functions";
+import { region } from "firebase-functions";
+// import { firestore as firestore_1 } from "firebase-functions";
 import { getChangeType } from "./common";
 import {
   firebase_dynamic_links_key,
@@ -15,7 +15,7 @@ import {
   projectId,
 } from "./environment";
 
-// const firestore_1 = region("europe-west1").firestore;
+const firestore_1 = region("europe-west1").firestore;
 
 export const onClassUpdated = firestore_1
   .document("Classes/{class}")

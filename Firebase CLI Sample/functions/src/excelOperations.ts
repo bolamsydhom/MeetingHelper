@@ -1,13 +1,13 @@
 import { Timestamp } from "@google-cloud/firestore";
 import * as download from "download";
 import { auth, firestore, storage } from "firebase-admin";
-import { runWith } from "firebase-functions";
+import {  region } from "firebase-functions";
 import { HttpsError } from "firebase-functions/lib/providers/https";
 import { readFile, utils, writeFile } from "xlsx";
 import { assertNotEmpty } from "./common";
 import { projectId } from "./environment";
 
-export const exportToExcel = runWith({
+export const exportToExcel = region("europe-west1").runWith({
   memory: "512MB",
   timeoutSeconds: 540,
 }).https.onCall(async (data, context) => {
@@ -407,7 +407,7 @@ export const exportToExcel = runWith({
   return file.id;
 });
 
-export const importFromExcel = runWith({
+export const importFromExcel = region("europe-west1").runWith({
   memory: "512MB",
   timeoutSeconds: 540,
 }).https.onCall(async (data, context) => {

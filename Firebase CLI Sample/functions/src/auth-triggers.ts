@@ -1,15 +1,15 @@
 import { FieldValue } from "@google-cloud/firestore";
 import * as download from "download";
 import { auth, database, firestore, messaging, storage } from "firebase-admin";
-// import { region } from "firebase-functions";
-import { auth as auth_1 } from "firebase-functions";
+import { region } from "firebase-functions";
+// import { auth as auth_1 } from "firebase-functions";
 import {
   firebase_dynamic_links_prefix,
   packageName,
   projectId,
 } from "./environment";
 
-// const auth_1 = region("europe-west1").auth;
+const auth_1 = region("europe-west1").auth;
 
 export const onUserSignUp = auth_1.user().onCreate(async (user) => {
   let customClaims: Record<string, any>;

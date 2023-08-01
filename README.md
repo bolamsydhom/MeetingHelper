@@ -17,7 +17,7 @@
 
 - Go to Project settings
 - Click on Android icon
-- Enter the package name (com.AndroidQuartz.meetinghelper)
+- Enter the package name (com.AndroidQuartz.meetinghelper.abc)
 - Add app nickname (MeetingHelper - Android)
 - Don't download the google-services.json file now (will be downloaded later)
 - Click Next
@@ -153,7 +153,7 @@ export function encryptPassword(rawPassword: string): string {
 FB_DYNAMIC_LINKS_KEY=<the key you created and copied from the project credentails>
 FB_DYNAMIC_LINKS_PREFIX=<https://meetinghelper.page.link>
 ADMIN_PASSWORD=p^s$word
-PACKAGE_NAME=com.AndroidQuartz.meetinghelper
+PACKAGE_NAME=com.AndroidQuartz.meetinghelper.abc
 ```
 
 - Fill the values that are surrounded by <> without <>

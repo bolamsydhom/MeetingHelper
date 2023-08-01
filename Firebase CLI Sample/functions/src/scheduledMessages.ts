@@ -1,10 +1,10 @@
 import { auth, messaging } from "firebase-admin";
-// import { region } from "firebase-functions";
-import { pubsub } from "firebase-functions";
+import { region } from "firebase-functions";
+// import { pubsub } from "firebase-functions";
 import { getFCMTokensForUser } from "./common";
 import { firebase_dynamic_links_prefix, packageName } from "./environment";
 
-// const pubsub = region("europe-west1").pubsub;
+const pubsub = region("europe-west1").pubsub;
 
 export const sendNewYearMessage = pubsub
   .schedule("0 0 1 1 *")
@@ -135,7 +135,7 @@ export const sendHappyRiseMessage = pubsub
       {
         priority: "high",
         timeToLive: 7 * 24 * 60 * 60,
-        restrictedPackageName: "com.AndroidQuartz.meetinghelper",
+        restrictedPackageName: "com.AndroidQuartz.meetinghelper.abc",
       }
     );
     return "OK";

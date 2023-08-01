@@ -1,9 +1,9 @@
 import { auth, firestore } from "firebase-admin";
-import { https as _https /* , region */ } from "firebase-functions";
+import { https as _https , region } from "firebase-functions";
 import { adminPassword } from "./environment";
 
-// const https = region("europe-west1").https;
-const https = _https;
+const https = region("europe-west1").https;
+// const https = _https;
 const HttpsError = _https.HttpsError;
 
 export const migrateFromV6 = https.onCall(async (data) => {
