@@ -26,11 +26,11 @@ void main() {
         setUpMHPlatformChannels();
         await initFakeCore();
 
-        when((GetIt.I<FirebaseMessaging>() as MockFirebaseMessaging)
-                .isSupported())
-            .thenAnswer((_) async => false);
+        when(
+          (GetIt.I<FirebaseMessaging>() as MockFirebaseMessaging).isSupported(),
+        ).thenAnswer((_) async => false);
 
-        TestDefaultBinaryMessengerBinding.instance!.defaultBinaryMessenger
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
             .setMockMessageHandler('plugins.flutter.io/local_auth', (c) async {
           if (const StandardMethodCodec().decodeMethodCall(c).method ==
               'getAvailableBiometrics') {
@@ -108,8 +108,10 @@ void main() {
               ..pop();
             await tester.pumpAndSettle();
 
-            expect(find.text('لا يمكن تحميل البرنامج في الوقت الحالي'),
-                findsOneWidget);
+            expect(
+              find.text('لا يمكن تحميل البرنامج في الوقت الحالي'),
+              findsOneWidget,
+            );
             expect(find.text('اضغط لمزيد من المعلومات'), findsOneWidget);
           }
         },

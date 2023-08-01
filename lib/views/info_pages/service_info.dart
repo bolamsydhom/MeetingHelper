@@ -73,8 +73,9 @@ class _ServiceInfoState extends State<ServiceInfo> {
                   TargetContent(
                     child: Text(
                       'تعديل بيانات الخدمة',
-                      style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                          color: Theme.of(context).colorScheme.onSecondary),
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.onSecondary,
+                          ),
                     ),
                   ),
                 ],
@@ -88,8 +89,9 @@ class _ServiceInfoState extends State<ServiceInfo> {
                 TargetContent(
                   child: Text(
                     'يمكنك مشاركة البيانات بلينك يفتح البيانات مباشرة داخل البرنامج',
-                    style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                        color: Theme.of(context).colorScheme.onSecondary),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                        ),
                   ),
                 ),
               ],
@@ -103,8 +105,9 @@ class _ServiceInfoState extends State<ServiceInfo> {
                 TargetContent(
                   child: Text(
                     'يمكنك ايجاد المزيد من الخيارات من هنا مثل: اشعار المستخدمين عن الخدمة',
-                    style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                        color: Theme.of(context).colorScheme.onSecondary),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                        ),
                   ),
                 ),
               ],
@@ -120,8 +123,9 @@ class _ServiceInfoState extends State<ServiceInfo> {
                   align: ContentAlign.top,
                   child: Text(
                     'الاطلاع على سجل التعديلات في بيانات الخدمة',
-                    style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                        color: Theme.of(context).colorScheme.onSecondary),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                        ),
                   ),
                 ),
               ],
@@ -137,8 +141,9 @@ class _ServiceInfoState extends State<ServiceInfo> {
                   align: ContentAlign.top,
                   child: Text(
                     'الأن يمكنك عرض تحليل لبيانات حضور مخدومين في الخدمة خلال فترة معينة من هنا',
-                    style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                        color: Theme.of(context).colorScheme.onSecondary),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                        ),
                   ),
                 ),
               ],
@@ -154,8 +159,9 @@ class _ServiceInfoState extends State<ServiceInfo> {
                     align: ContentAlign.top,
                     child: Text(
                       'يمكنك اضافة مخدوم داخل الخدمة بسرعة وسهولة من هنا',
-                      style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                          color: Theme.of(context).colorScheme.onSecondary),
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.onSecondary,
+                          ),
                     ),
                   ),
                 ],
@@ -231,16 +237,19 @@ class _ServiceInfoState extends State<ServiceInfo> {
                                     child:
                                         Icon(Icons.edit, color: Colors.black54),
                                   ),
-                                  Icon(Icons.edit,
-                                      color: IconTheme.of(context).color),
+                                  Icon(
+                                    Icons.edit,
+                                    color: IconTheme.of(context).color,
+                                  ),
                                 ],
                               ),
                             ),
                             onPressed: () async {
-                              final dynamic result = await navigator
-                                  .currentState!
-                                  .pushNamed('Data/EditService',
-                                      arguments: service);
+                              final dynamic result =
+                                  await navigator.currentState!.pushNamed(
+                                'Data/EditService',
+                                arguments: service,
+                              );
                               if (result is JsonRef) {
                                 scaffoldMessenger.currentState!.showSnackBar(
                                   const SnackBar(
@@ -272,8 +281,10 @@ class _ServiceInfoState extends State<ServiceInfo> {
                                   child:
                                       Icon(Icons.share, color: Colors.black54),
                                 ),
-                                Icon(Icons.share,
-                                    color: IconTheme.of(context).color),
+                                Icon(
+                                  Icons.share,
+                                  color: IconTheme.of(context).color,
+                                ),
                               ],
                             ),
                           ),
@@ -312,8 +323,10 @@ class _ServiceInfoState extends State<ServiceInfo> {
                             constraints.biggest.height > kToolbarHeight * 1.7
                                 ? 0
                                 : 1,
-                        child: Text(service.name,
-                            style: const TextStyle(fontSize: 16.0)),
+                        child: Text(
+                          service.name,
+                          style: const TextStyle(fontSize: 16.0),
+                        ),
                       ),
                       background: Theme(
                         data: Theme.of(context).copyWith(
@@ -337,7 +350,7 @@ class _ServiceInfoState extends State<ServiceInfo> {
                           service.name,
                           style: Theme.of(context)
                               .textTheme
-                              .headline5
+                              .headlineSmall
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -429,13 +442,13 @@ class _ServiceInfoState extends State<ServiceInfo> {
                         _ServiceServants(service: service),
                       Text(
                         'المخدومين المشتركين بالخدمة:',
-                        style: Theme.of(context).textTheme.headline6,
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
                       SearchFilters(
                         Person,
                         options: _listOptions,
                         orderOptions: _orderOptions,
-                        textStyle: Theme.of(context).textTheme.bodyText2,
+                        textStyle: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ],
                   ),
@@ -462,7 +475,7 @@ class _ServiceInfoState extends State<ServiceInfo> {
                   textAlign: TextAlign.center,
                   strutStyle:
                       StrutStyle(height: IconTheme.of(context).size! / 7.5),
-                  style: Theme.of(context).primaryTextTheme.bodyText1,
+                  style: Theme.of(context).primaryTextTheme.bodyLarge,
                 );
               },
             ),
@@ -473,8 +486,9 @@ class _ServiceInfoState extends State<ServiceInfo> {
               ? FloatingActionButton(
                   key: _add,
                   onPressed: () => navigator.currentState!.pushNamed(
-                      'Data/EditPerson',
-                      arguments: widget.service.ref),
+                    'Data/EditPerson',
+                    arguments: widget.service.ref,
+                  ),
                   child: const Icon(Icons.person_add),
                 )
               : null,
@@ -484,8 +498,11 @@ class _ServiceInfoState extends State<ServiceInfo> {
   }
 
   void showMap(BuildContext context, Service service) {
-    navigator.currentState!.push(MaterialPageRoute(
-        builder: (context) => MHMapView(initialService: service)));
+    navigator.currentState!.push(
+      MaterialPageRoute(
+        builder: (context) => MHMapView(initialService: service),
+      ),
+    );
   }
 
   void _showAnalytics(BuildContext context, Service _class) {
@@ -525,7 +542,7 @@ class _ServiceServants extends StatelessWidget {
         return ListTile(
           title: Text(
             'الخدام المسؤلين عن الخدمة',
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           subtitle: users.isNotEmpty
               ? GridView.builder(

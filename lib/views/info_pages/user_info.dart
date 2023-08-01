@@ -86,10 +86,12 @@ class _UserInfoState extends State<UserInfo> {
                             constraints.biggest.height > kToolbarHeight * 1.7
                                 ? 0
                                 : 1,
-                        child: Text(user.name,
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                            )),
+                        child: Text(
+                          user.name,
+                          style: const TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
                       ),
                       background: Theme(
                         data: Theme.of(context).copyWith(
@@ -110,7 +112,7 @@ class _UserInfoState extends State<UserInfo> {
             ],
             body: ListView(
               children: <Widget>[
-                Text(user.name, style: Theme.of(context).textTheme.headline6),
+                Text(user.name, style: Theme.of(context).textTheme.titleLarge),
                 ListTile(
                   title: const Text('البريد الاكتروني:'),
                   subtitle: Text(user.email ?? ''),
@@ -128,8 +130,8 @@ class _UserInfoState extends State<UserInfo> {
                       } else if (activity.data?.snapshot.value != null) {
                         return Text(
                           DateTime.fromMillisecondsSinceEpoch(
-                                  activity.data!.snapshot.value! as int)
-                              .toDurationString(),
+                            activity.data!.snapshot.value! as int,
+                          ).toDurationString(),
                         );
                       }
                       return const Text('لا يمكن التحديد');
@@ -149,7 +151,7 @@ class _UserInfoState extends State<UserInfo> {
                         user.lastTanawol != null
                             ? DateFormat('yyyy/M/d').format(user.lastTanawol!)
                             : '',
-                        style: Theme.of(context).textTheme.overline,
+                        style: Theme.of(context).textTheme.labelSmall,
                       ),
                     ],
                   ),
@@ -168,7 +170,7 @@ class _UserInfoState extends State<UserInfo> {
                             ? DateFormat('yyyy/M/d')
                                 .format(user.lastConfession!)
                             : '',
-                        style: Theme.of(context).textTheme.overline,
+                        style: Theme.of(context).textTheme.labelSmall,
                       ),
                     ],
                   ),
@@ -181,8 +183,10 @@ class _UserInfoState extends State<UserInfo> {
                               future: MHDatabaseRepo.I.classes
                                   .getById(user.classId!.id),
                               builder: (context, _class) => _class.hasData
-                                  ? ViewableObjectWidget<Class>(_class.data!,
-                                      isDense: true)
+                                  ? ViewableObjectWidget<Class>(
+                                      _class.data!,
+                                      isDense: true,
+                                    )
                                   : const LinearProgressIndicator(),
                             )
                           : const Text('غير موجود'),
@@ -194,19 +198,22 @@ class _UserInfoState extends State<UserInfo> {
                       if (user.permissions.manageUsers)
                         const ListTile(
                           leading: Icon(
-                              IconData(0xef3d, fontFamily: 'MaterialIconsR')),
+                            IconData(0xef3d, fontFamily: 'MaterialIconsR'),
+                          ),
                           title: Text('إدارة المستخدمين'),
                         ),
                       if (user.permissions.manageAllowedUsers)
                         const ListTile(
                           leading: Icon(
-                              IconData(0xef3d, fontFamily: 'MaterialIconsR')),
+                            IconData(0xef3d, fontFamily: 'MaterialIconsR'),
+                          ),
                           title: Text('إدارة مستخدمين محددين'),
                         ),
                       if (user.permissions.superAccess)
                         const ListTile(
                           leading: Icon(
-                              IconData(0xef56, fontFamily: 'MaterialIconsR')),
+                            IconData(0xef56, fontFamily: 'MaterialIconsR'),
+                          ),
                           title: Text('رؤية جميع البيانات'),
                         ),
                       if (user.permissions.manageDeleted)
@@ -279,7 +286,7 @@ class _UserInfoState extends State<UserInfo> {
                             'يستطيع ' +
                                 user.name +
                                 ' رؤية ${user.permissions.write ? 'وتعديل ' : ''}الخدمات التالية:',
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                           Expanded(
                             child: ServicesList<DataObject>(
@@ -335,7 +342,7 @@ class _UserInfoState extends State<UserInfo> {
                               showSuffix: false,
                               searchStream: listOptions.searchSubject,
                               textStyle:
-                                  Theme.of(context).primaryTextTheme.headline6,
+                                  Theme.of(context).primaryTextTheme.titleLarge,
                             ),
                           ),
                           body: DataObjectListView(
@@ -353,11 +360,11 @@ class _UserInfoState extends State<UserInfo> {
                                       ' مستخدم',
                                   textAlign: TextAlign.center,
                                   strutStyle: StrutStyle(
-                                      height:
-                                          IconTheme.of(context).size! / 7.5),
+                                    height: IconTheme.of(context).size! / 7.5,
+                                  ),
                                   style: Theme.of(context)
                                       .primaryTextTheme
-                                      .bodyText1,
+                                      .bodyLarge,
                                 );
                               },
                             ),

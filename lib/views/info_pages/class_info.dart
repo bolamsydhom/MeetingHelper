@@ -72,8 +72,9 @@ class _ClassInfoState extends State<ClassInfo> {
                   TargetContent(
                     child: Text(
                       'تعديل بيانات الفصل',
-                      style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                          color: Theme.of(context).colorScheme.onSecondary),
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.onSecondary,
+                          ),
                     ),
                   ),
                 ],
@@ -87,8 +88,9 @@ class _ClassInfoState extends State<ClassInfo> {
                 TargetContent(
                   child: Text(
                     'يمكنك مشاركة البيانات بلينك يفتح البيانات مباشرة داخل البرنامج',
-                    style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                        color: Theme.of(context).colorScheme.onSecondary),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                        ),
                   ),
                 ),
               ],
@@ -102,8 +104,9 @@ class _ClassInfoState extends State<ClassInfo> {
                 TargetContent(
                   child: Text(
                     'يمكنك ايجاد المزيد من الخيارات من هنا مثل: اشعار المستخدمين عن الفصل',
-                    style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                        color: Theme.of(context).colorScheme.onSecondary),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                        ),
                   ),
                 ),
               ],
@@ -119,8 +122,9 @@ class _ClassInfoState extends State<ClassInfo> {
                   align: ContentAlign.top,
                   child: Text(
                     'الاطلاع على سجل التعديلات في بيانات الفصل',
-                    style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                        color: Theme.of(context).colorScheme.onSecondary),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                        ),
                   ),
                 ),
               ],
@@ -136,8 +140,9 @@ class _ClassInfoState extends State<ClassInfo> {
                   align: ContentAlign.top,
                   child: Text(
                     'الأن يمكنك عرض تحليل لبيانات حضور مخدومين الفصل خلال فترة معينة من هنا',
-                    style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                        color: Theme.of(context).colorScheme.onSecondary),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                        ),
                   ),
                 ),
               ],
@@ -153,8 +158,9 @@ class _ClassInfoState extends State<ClassInfo> {
                     align: ContentAlign.top,
                     child: Text(
                       'يمكنك اضافة مخدوم داخل الفصل بسرعة وسهولة من هنا',
-                      style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                          color: Theme.of(context).colorScheme.onSecondary),
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.onSecondary,
+                          ),
                     ),
                   ),
                 ],
@@ -231,16 +237,19 @@ class _ClassInfoState extends State<ClassInfo> {
                                     child:
                                         Icon(Icons.edit, color: Colors.black54),
                                   ),
-                                  Icon(Icons.edit,
-                                      color: IconTheme.of(context).color),
+                                  Icon(
+                                    Icons.edit,
+                                    color: IconTheme.of(context).color,
+                                  ),
                                 ],
                               ),
                             ),
                             onPressed: () async {
-                              final dynamic result = await navigator
-                                  .currentState!
-                                  .pushNamed('Data/EditClass',
-                                      arguments: class$);
+                              final dynamic result =
+                                  await navigator.currentState!.pushNamed(
+                                'Data/EditClass',
+                                arguments: class$,
+                              );
                               if (result is JsonRef) {
                                 scaffoldMessenger.currentState!.showSnackBar(
                                   const SnackBar(
@@ -272,8 +281,10 @@ class _ClassInfoState extends State<ClassInfo> {
                                   child:
                                       Icon(Icons.share, color: Colors.black54),
                                 ),
-                                Icon(Icons.share,
-                                    color: IconTheme.of(context).color),
+                                Icon(
+                                  Icons.share,
+                                  color: IconTheme.of(context).color,
+                                ),
                               ],
                             ),
                           ),
@@ -313,8 +324,10 @@ class _ClassInfoState extends State<ClassInfo> {
                             constraints.biggest.height > kToolbarHeight * 1.7
                                 ? 0
                                 : 1,
-                        child: Text(class$.name,
-                            style: const TextStyle(fontSize: 16.0)),
+                        child: Text(
+                          class$.name,
+                          style: const TextStyle(fontSize: 16.0),
+                        ),
                       ),
                       background: Theme(
                         data: Theme.of(context).copyWith(
@@ -338,7 +351,7 @@ class _ClassInfoState extends State<ClassInfo> {
                           class$.name,
                           style: Theme.of(context)
                               .textTheme
-                              .headline5
+                              .headlineSmall
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -391,13 +404,13 @@ class _ClassInfoState extends State<ClassInfo> {
                       _ClassServants(class$: class$),
                       Text(
                         'المخدومين بالفصل:',
-                        style: Theme.of(context).textTheme.headline6,
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
                       SearchFilters(
                         Person,
                         options: _listOptions,
                         orderOptions: _orderOptions,
-                        textStyle: Theme.of(context).textTheme.bodyText2,
+                        textStyle: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ],
                   ),
@@ -424,7 +437,7 @@ class _ClassInfoState extends State<ClassInfo> {
                   textAlign: TextAlign.center,
                   strutStyle:
                       StrutStyle(height: IconTheme.of(context).size! / 7.5),
-                  style: Theme.of(context).primaryTextTheme.bodyText1,
+                  style: Theme.of(context).primaryTextTheme.bodyLarge,
                 );
               },
             ),
@@ -435,8 +448,9 @@ class _ClassInfoState extends State<ClassInfo> {
               ? FloatingActionButton(
                   key: _add,
                   onPressed: () => navigator.currentState!.pushNamed(
-                      'Data/EditPerson',
-                      arguments: widget.class$.ref),
+                    'Data/EditPerson',
+                    arguments: widget.class$.ref,
+                  ),
                   child: const Icon(Icons.person_add),
                 )
               : null,
@@ -446,8 +460,11 @@ class _ClassInfoState extends State<ClassInfo> {
   }
 
   void showMap(BuildContext context, Class class$) {
-    navigator.currentState!.push(MaterialPageRoute(
-        builder: (context) => MHMapView(initialClass: class$)));
+    navigator.currentState!.push(
+      MaterialPageRoute(
+        builder: (context) => MHMapView(initialClass: class$),
+      ),
+    );
   }
 
   void _showAnalytics(BuildContext context, Class _class) {
@@ -467,7 +484,7 @@ class _ClassServants extends StatelessWidget {
     return ListTile(
       title: Text(
         'خدام الفصل',
-        style: Theme.of(context).textTheme.headline6,
+        style: Theme.of(context).textTheme.titleLarge,
       ),
       subtitle: class$.allowedUsers.isNotEmpty
           ? GridView.builder(
@@ -491,16 +508,19 @@ class _ClassServants extends StatelessWidget {
                             ? Colors.black26
                             : Colors.black54,
                         child: Center(
-                          child: Text('+' +
-                              (class$.allowedUsers.length - 6).toString()),
+                          child: Text(
+                            '+' + (class$.allowedUsers.length - 6).toString(),
+                          ),
                         ),
                       ),
                     ),
                   );
                 }
                 return IgnorePointer(
-                  child: User.photoFromUID(class$.allowedUsers[i],
-                      removeHero: true),
+                  child: User.photoFromUID(
+                    class$.allowedUsers[i],
+                    removeHero: true,
+                  ),
                 );
               },
             )

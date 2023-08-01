@@ -8,7 +8,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get_it/get_it.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:meetinghelper/models.dart';
 import 'package:meetinghelper/repositories.dart';
@@ -64,8 +63,9 @@ class _ActivityAnalysisState extends State<ActivityAnalysis> {
   DateTime minAvaliable = DateTime.now().subtract(const Duration(days: 30));
   bool minAvaliableSet = false;
   DateTimeRange range = DateTimeRange(
-      start: DateTime.now().subtract(const Duration(days: 30)),
-      end: DateTime.now());
+    start: DateTime.now().subtract(const Duration(days: 30)),
+    end: DateTime.now(),
+  );
 
   final AsyncMemoizer<void> _rangeStart = AsyncMemoizer<void>();
 
@@ -92,8 +92,10 @@ class _ActivityAnalysisState extends State<ActivityAnalysis> {
       if (allowed.length <= 10) {
         minAvaliable = ((await GetIt.I<DatabaseRepository>()
                         .collectionGroup('EditHistory')
-                        .where('ClassId',
-                            whereIn: allowed.map((c) => c.ref).toList())
+                        .where(
+                          'ClassId',
+                          whereIn: allowed.map((c) => c.ref).toList(),
+                        )
                         .orderBy('Time')
                         .limit(1)
                         .get())
@@ -103,21 +105,27 @@ class _ActivityAnalysisState extends State<ActivityAnalysis> {
                 ?.toDate() ??
             minAvaliable;
       } else {
-        minAvaliable = DateTime.fromMillisecondsSinceEpoch((await Future.wait(
-          allowed.map(
-            (c) => GetIt.I<DatabaseRepository>()
-                .collectionGroup('EditHistory')
-                .where('ClassId', isEqualTo: c)
-                .orderBy('Time')
-                .limit(1)
-                .get(),
-          ),
-        ))
-            .expand((e) => e.docs
-                .map((e) =>
-                    (e.data()['Time'] as Timestamp).millisecondsSinceEpoch)
-                .toList())
-            .reduce((a, b) => min<int>(a, b)));
+        minAvaliable = DateTime.fromMillisecondsSinceEpoch(
+          (await Future.wait(
+            allowed.map(
+              (c) => GetIt.I<DatabaseRepository>()
+                  .collectionGroup('EditHistory')
+                  .where('ClassId', isEqualTo: c)
+                  .orderBy('Time')
+                  .limit(1)
+                  .get(),
+            ),
+          ))
+              .expand(
+                (e) => e.docs
+                    .map(
+                      (e) => (e.data()['Time'] as Timestamp)
+                          .millisecondsSinceEpoch,
+                    )
+                    .toList(),
+              )
+              .reduce((a, b) => min<int>(a, b)),
+        );
       }
     }
     minAvaliableSet = true;
@@ -164,12 +172,12 @@ class _ActivityAnalysisState extends State<ActivityAnalysis> {
                       children: [
                         ListTile(
                           title: Text(
-                              'احصائيات الخدمة من ' +
-                                  DateFormat.yMMMEd('ar_EG')
-                                      .format(range.start) +
-                                  ' الى ' +
-                                  DateFormat.yMMMEd('ar_EG').format(range.end),
-                              style: Theme.of(context).textTheme.bodyText1),
+                            'احصائيات الخدمة من ' +
+                                DateFormat.yMMMEd('ar_EG').format(range.start) +
+                                ' الى ' +
+                                DateFormat.yMMMEd('ar_EG').format(range.end),
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
                           trailing: IconButton(
                             icon: const Icon(Icons.date_range),
                             tooltip: 'اختيار نطاق السجل',
@@ -179,7 +187,7 @@ class _ActivityAnalysisState extends State<ActivityAnalysis> {
                                   data: Theme.of(context).copyWith(
                                     textTheme:
                                         Theme.of(context).textTheme.copyWith(
-                                              overline: const TextStyle(
+                                              labelSmall: const TextStyle(
                                                 fontSize: 0,
                                               ),
                                             ),
@@ -195,7 +203,8 @@ class _ActivityAnalysisState extends State<ActivityAnalysis> {
                                     : DateTimeRange(
                                         start: DateTime.now()
                                             .subtract(const Duration(days: 1)),
-                                        end: range.end),
+                                        end: range.end,
+                                      ),
                                 firstDate: minAvaliable,
                                 lastDate: DateTime.now(),
                               );
@@ -274,8 +283,9 @@ class _PersonAnalyticsPageState extends State<PersonAnalyticsPage> {
   DateTime minAvaliable = DateTime.now().subtract(const Duration(days: 30));
   bool minAvaliableSet = false;
   DateTimeRange range = DateTimeRange(
-      start: DateTime.now().subtract(const Duration(days: 30)),
-      end: DateTime.now());
+    start: DateTime.now().subtract(const Duration(days: 30)),
+    end: DateTime.now(),
+  );
 
   final AsyncMemoizer<void> _rangeStart = AsyncMemoizer<void>();
 
@@ -333,10 +343,13 @@ class _PersonAnalyticsPageState extends State<PersonAnalyticsPage> {
                   .where(
                     'Day',
                     isLessThan: Timestamp.fromDate(
-                        range.end.add(const Duration(days: 1))),
+                      range.end.add(const Duration(days: 1)),
+                    ),
                   )
-                  .where('Day',
-                      isGreaterThanOrEqualTo: Timestamp.fromDate(range.start))
+                  .where(
+                    'Day',
+                    isGreaterThanOrEqualTo: Timestamp.fromDate(range.start),
+                  )
                   .snapshots(),
               builder: (context, data) {
                 if (data.hasError) return ErrorWidget(data.error!);
@@ -353,11 +366,12 @@ class _PersonAnalyticsPageState extends State<PersonAnalyticsPage> {
                     children: [
                       ListTile(
                         title: Text(
-                            'احصائيات الحضور من ' +
-                                DateFormat.yMMMEd('ar_EG').format(range.start) +
-                                ' الى ' +
-                                DateFormat.yMMMEd('ar_EG').format(range.end),
-                            style: Theme.of(context).textTheme.bodyText1),
+                          'احصائيات الحضور من ' +
+                              DateFormat.yMMMEd('ar_EG').format(range.start) +
+                              ' الى ' +
+                              DateFormat.yMMMEd('ar_EG').format(range.end),
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
                         trailing: IconButton(
                           icon: const Icon(Icons.date_range),
                           tooltip: 'اختيار نطاق السجل',
@@ -367,7 +381,7 @@ class _PersonAnalyticsPageState extends State<PersonAnalyticsPage> {
                                 data: Theme.of(context).copyWith(
                                   textTheme:
                                       Theme.of(context).textTheme.copyWith(
-                                            overline: const TextStyle(
+                                            labelSmall: const TextStyle(
                                               fontSize: 0,
                                             ),
                                           ),
@@ -396,10 +410,11 @@ class _PersonAnalyticsPageState extends State<PersonAnalyticsPage> {
                         label: 'حضور الاجتماع',
                       ),
                       DayHistoryProperty(
-                          'تاريخ أخر حضور اجتماع:',
-                          widget.person.lastMeeting,
-                          widget.person.id,
-                          'Meeting'),
+                        'تاريخ أخر حضور اجتماع:',
+                        widget.person.lastMeeting,
+                        widget.person.id,
+                        'Meeting',
+                      ),
                       Container(height: 10),
                       PersonAttendanceIndicator(
                         id: widget.person.id,
@@ -408,8 +423,12 @@ class _PersonAnalyticsPageState extends State<PersonAnalyticsPage> {
                         collectionGroup: 'Kodas',
                         label: 'حضور القداس',
                       ),
-                      DayHistoryProperty('تاريخ أخر حضور قداس:',
-                          widget.person.lastKodas, widget.person.id, 'Kodas'),
+                      DayHistoryProperty(
+                        'تاريخ أخر حضور قداس:',
+                        widget.person.lastKodas,
+                        widget.person.id,
+                        'Kodas',
+                      ),
                       Container(height: 10),
                       PersonAttendanceIndicator(
                         id: widget.person.id,
@@ -419,10 +438,11 @@ class _PersonAnalyticsPageState extends State<PersonAnalyticsPage> {
                         label: 'الاعتراف',
                       ),
                       DayHistoryProperty(
-                          'تاريخ أخر اعتراف:',
-                          widget.person.lastConfession,
-                          widget.person.id,
-                          'Confession'),
+                        'تاريخ أخر اعتراف:',
+                        widget.person.lastConfession,
+                        widget.person.id,
+                        'Confession',
+                      ),
                       Container(height: 10),
                       ...widget.person.services
                           .map(
@@ -446,8 +466,7 @@ class _PersonAnalyticsPageState extends State<PersonAnalyticsPage> {
                               ),
                             ],
                           )
-                          .expand((e) => e)
-                          .toList(),
+                          .expand((e) => e),
                     ],
                   ),
                 );
@@ -464,8 +483,9 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
   List<DataObject>? parents;
   DateTime day = DateTime.now();
   DateTimeRange range = DateTimeRange(
-      start: DateTime.now().subtract(const Duration(days: 30)),
-      end: DateTime.now());
+    start: DateTime.now().subtract(const Duration(days: 30)),
+    end: DateTime.now(),
+  );
 
   bool _isOneDay = false;
   DateTime _minAvaliable = DateTime.now().subtract(const Duration(days: 30));
@@ -493,7 +513,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       builder: (context, dialog) => Theme(
         data: Theme.of(context).copyWith(
           textTheme: Theme.of(context).textTheme.copyWith(
-                overline: const TextStyle(
+                labelSmall: const TextStyle(
                   fontSize: 0,
                 ),
               ),
@@ -505,7 +525,9 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       initialDateRange: !range.start.isBefore(_minAvaliable) && !_isOneDay
           ? range
           : DateTimeRange(
-              start: day.subtract(const Duration(days: 1)), end: day),
+              start: day.subtract(const Duration(days: 1)),
+              end: day,
+            ),
       firstDate: _minAvaliable,
       lastDate: DateTime.now(),
     );
@@ -522,7 +544,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
       builder: (context, dialog) => Theme(
         data: Theme.of(context).copyWith(
           textTheme: Theme.of(context).textTheme.copyWith(
-                overline: const TextStyle(
+                labelSmall: const TextStyle(
                   fontSize: 0,
                 ),
               ),
@@ -593,29 +615,36 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                     stream: (_isOneDay
                             ? GetIt.I<DatabaseRepository>()
                                 .collection(widget.historyColection)
-                                .where('Day',
-                                    isGreaterThanOrEqualTo:
-                                        Timestamp.fromDate(day))
+                                .where(
+                                  'Day',
+                                  isGreaterThanOrEqualTo:
+                                      Timestamp.fromDate(day),
+                                )
                                 .where(
                                   'Day',
                                   isLessThan: Timestamp.fromDate(
-                                      day.add(const Duration(days: 1))),
+                                    day.add(const Duration(days: 1)),
+                                  ),
                                 )
                                 .snapshots()
                             : GetIt.I<DatabaseRepository>()
                                 .collection(widget.historyColection)
                                 .orderBy('Day')
-                                .where('Day',
-                                    isGreaterThanOrEqualTo:
-                                        Timestamp.fromDate(range.start))
+                                .where(
+                                  'Day',
+                                  isGreaterThanOrEqualTo:
+                                      Timestamp.fromDate(range.start),
+                                )
                                 .where(
                                   'Day',
                                   isLessThan: Timestamp.fromDate(
-                                      range.end.add(const Duration(days: 1))),
+                                    range.end.add(const Duration(days: 1)),
+                                  ),
                                 )
                                 .snapshots())
-                        .map((s) =>
-                            s.docs.map(HistoryDay.fromQueryDoc).toList()),
+                        .map(
+                      (s) => s.docs.map(HistoryDay.fromQueryDoc).toList(),
+                    ),
                     builder: (context, daysData) {
                       if (daysData.hasError) {
                         return ErrorWidget(daysData.error!);
@@ -632,16 +661,17 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                           children: [
                             ListTile(
                               title: Text(
-                                  _isOneDay
-                                      ? 'احصائيات الحضور ليوم ' +
-                                          DateFormat.yMMMEd('ar_EG').format(day)
-                                      : 'احصائيات الحضور من ' +
-                                          DateFormat.yMMMEd('ar_EG')
-                                              .format(range.start) +
-                                          ' الى ' +
-                                          DateFormat.yMMMEd('ar_EG')
-                                              .format(range.end),
-                                  style: Theme.of(context).textTheme.bodyText1),
+                                _isOneDay
+                                    ? 'احصائيات الحضور ليوم ' +
+                                        DateFormat.yMMMEd('ar_EG').format(day)
+                                    : 'احصائيات الحضور من ' +
+                                        DateFormat.yMMMEd('ar_EG')
+                                            .format(range.start) +
+                                        ' الى ' +
+                                        DateFormat.yMMMEd('ar_EG')
+                                            .format(range.end),
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -652,7 +682,8 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                                   ),
                                   IconButton(
                                     icon: const Icon(
-                                        Icons.calendar_today_outlined),
+                                      Icons.calendar_today_outlined,
+                                    ),
                                     tooltip: 'اختيار يوم واحد',
                                     onPressed: _selectDay,
                                   ),
@@ -689,9 +720,10 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                             if (_isOneDay && days!.isNotEmpty) ...[
                               if ((parents?.whereType<Class>() ?? [])
                                   .isNotEmpty) ...[
-                                Text('حضور الاجتماع',
-                                    style:
-                                        Theme.of(context).textTheme.headline6),
+                                Text(
+                                  'حضور الاجتماع',
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
                                 ClassesAttendanceIndicator(
                                   classes:
                                       parents?.whereType<Class>().toList() ??
@@ -702,9 +734,10 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                                       'ServantsHistory',
                                 ),
                                 const Divider(),
-                                Text('حضور القداس',
-                                    style:
-                                        Theme.of(context).textTheme.headline6),
+                                Text(
+                                  'حضور القداس',
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
                                 ClassesAttendanceIndicator(
                                   classes:
                                       parents?.whereType<Class>().toList() ??
@@ -715,9 +748,10 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                                       'ServantsHistory',
                                 ),
                                 const Divider(),
-                                Text('الاعتراف',
-                                    style:
-                                        Theme.of(context).textTheme.headline6),
+                                Text(
+                                  'الاعتراف',
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
                                 ClassesAttendanceIndicator(
                                   classes:
                                       parents?.whereType<Class>().toList() ??
@@ -733,10 +767,12 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                                       .map(
                                         (s) => [
                                           const Divider(),
-                                          Text('حضور ' + s.name,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headline6),
+                                          Text(
+                                            'حضور ' + s.name,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge,
+                                          ),
                                           ClassesAttendanceIndicator(
                                             collection: days.single
                                                 .subcollection(s.id)!,

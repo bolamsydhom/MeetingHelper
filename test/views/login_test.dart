@@ -3,6 +3,7 @@ import 'package:churchdata_core_mocks/churchdata_core.mocks.dart';
 import 'package:churchdata_core_mocks/fakes/fake_firebase_auth.dart';
 import 'package:churchdata_core_mocks/fakes/mock_user.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
+import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -23,13 +24,15 @@ void main() {
         await initFakeCore();
 
         GetIt.I.unregister(
-            instance: MHAuthRepository.I, disposingFunction: (_) {});
+          instance: MHAuthRepository.I,
+          disposingFunction: (_) {},
+        );
 
         await mockMHUser();
 
-        when((GetIt.I<FirebaseMessaging>() as MockFirebaseMessaging)
-                .isSupported())
-            .thenAnswer((_) async => false);
+        when(
+          (GetIt.I<FirebaseMessaging>() as MockFirebaseMessaging).isSupported(),
+        ).thenAnswer((_) async => false);
       });
 
       tearDown(() async {
@@ -66,11 +69,11 @@ void main() {
 
           when(mockUser.getIdTokenResult()).thenAnswer(
             (_) async => IdTokenResult(
-              {
-                'claims': {
+              PigeonIdTokenResult(
+                claims: {
                   'approved': false,
                 },
-              },
+              ),
             ),
           );
           (GetIt.I<FirebaseAuth>() as MockFirebaseAuth).userWhenSignIn =
